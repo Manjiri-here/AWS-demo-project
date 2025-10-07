@@ -1,0 +1,21 @@
+name: cicd-pipeline    # name of pipeline , you can give it as oer your choice
+
+on:                     #it is like webhook trigger in Jenkins. So it is trigger condition for pipeline
+  push:         
+    branches: [ "main" ]   #when anything is pushed to main branch the  pipeline is triggered
+
+jobs:             
+  compile:           #name of job
+
+    runs-on: ubuntu-latest         #defines where your pipeline runs
+
+    steps:                            #inside jobs there are steps
+    - uses: actions/checkout@v4         
+    - name: Set up JDK 17                 
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
